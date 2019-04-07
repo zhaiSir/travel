@@ -4,4 +4,8 @@
          version="3.0">
 
 
+    <servlet>
+        <servlet-name>ActiveUserServlet</servlet-name>
+        <servlet-class>cn.itcast.travel.web.servlet.ActiveUserServlet</servlet-class>
+    </servlet>
 </web-app>

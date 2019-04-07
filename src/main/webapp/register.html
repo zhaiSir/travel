@@ -7,6 +7,87 @@
         <link rel="stylesheet" href="css/register.css">
 		<!--导入jquery-->
 		<script src="js/jquery-3.3.1.js"></script>
+
+        <script>
+            /*表单校验：
+            1：用户名：单词字符，长度8-20位
+            2：密码：
+            3：email:邮件格式
+            4：姓名、出生日期、验证码：非空
+            5：手机号：手机号格式
+            */
+
+            //校验用户名
+            function checkUsername(){
+                //1.获取用户名
+                var username = $("#username").val();
+                //2.定义正则
+                var reg_username = /^\w{8,20}$/;
+                //3.判断，给出提示信息
+                var flag = reg_username.test(username);
+                if(flag){
+                    //匹配
+                    $("#username").css("border","");
+                }else{
+                    //不匹配时表框变红
+                    $("#username").css("border","1px solid red")
+                }
+                return flag;
+            }
+            //校验密码
+            function checkPassword(){
+               var password = $("#password").val();
+               var reg_password = /^\w{8,20}$/;
+               var flag = reg_password.test(password);
+               if(flag){
+                   $("#password").css("border","")
+			   }else{
+                   $("#password").css("border","1px solid red")
+			   }
+				return flag;
+            }
+
+           //校验邮箱
+			function  checkEmail(){
+                var email = $("#email").val();
+                var reg_email = /^\w+@\w+\.\w+$/;
+                var flag = reg_email.test(email);
+                if(flag){
+                    $("#email").css("border","");
+				}else{
+                    $("#email").css("border","1px solid red")
+				}
+                return flag;
+			}
+
+           $(function(){
+                //当表单提交时，调用所有的校验方法
+               $("#registerForm").submit(function(){
+                   if(checkUsername() && checkPassword() && checkEmail()){
+                       $.post("registUserServlet",$(this).serialize(),function(data){
+                           debugger;
+                           if(data.flag="true"){
+                               //跳转成功页面
+                               window.location.href="register_ok.html";
+                           }else{
+                               $("#errorMsg").html(data.errorMsg);
+                           }
+
+					   });
+				   }
+                   return false;
+                   //如果这个方法没有返回值，或者返回true，则表单提交，如果返回false则不提交表单。
+               })
+
+                //当某个组件失去焦点时调用对应校验方法
+               $("#username").blur(checkUsername);
+               $("#password").blur(checkPassword);
+               $("#email").blur(checkEmail);
+            });
+
+
+        </script>
+
     </head>
 	<body>
 	<!--引入头部-->
@@ -19,7 +100,7 @@
     				<p>USER REGISTER</p>
     			</div>
     			<div class="rg_form_center">
-					
+                    <div id="errorMsg" style="color:red;text-algin:center"></div>
 					<!--注册表单-->
     				<form id="registerForm">
 						<!--提交处理请求的标识符-->
