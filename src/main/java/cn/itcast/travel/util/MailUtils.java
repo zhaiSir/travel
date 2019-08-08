@@ -72,9 +72,9 @@ public final class MailUtils {
     }
 
     public static void main(String[] args) throws Exception { // 做测试用
-        for(int i=0;i<100;i++) {
+        /*for(int i=0;i<100;i++) {
             MailUtils.sendMail("1187996528@qq.com", "Sb。", "测试邮件");
-        }
+        }*/
         System.out.println("发送成功");
     }
 
