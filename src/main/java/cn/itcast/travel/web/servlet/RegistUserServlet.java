@@ -16,11 +16,13 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
+import org.apache.commons.io.FileUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @WebServlet("/registUserServlet")
 public class RegistUserServlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response,MultipartFile uploadFile) throws ServletException, IOException {
         //验证码校验
         String check = request.getParameter("check");
         //从session中获取验证码

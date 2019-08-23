@@ -102,7 +102,7 @@
     			<div class="rg_form_center">
                     <div id="errorMsg" style="color:red;text-algin:center"></div>
 					<!--注册表单-->
-    				<form id="registerForm">
+    				<form id="registerForm" enctype="multipart/form-data">
 						<!--提交处理请求的标识符-->
 						<input type="hidden" name="action" value="register">
     					<table style="margin-top: 25px;">
@@ -130,6 +130,14 @@
     								<input type="text" id="email" name="email" placeholder="请输入Email">
     							</td>
     						</tr>
+							<tr>
+								<td class="td_left">
+									<label for="uploadFile">头像</label>
+								</td>
+								<td class="td_right">
+									<input  style="color: #a6a6a6;border:1px solid #a6a6a6;padding: 4px 12px;border-radius: 4px;margin-left: 38px" type="file" id="uploadFile" name="uploadFile" >
+								</td>
+							</tr>
     						<tr>
     							<td class="td_left">
     								<label for="name">姓名</label>
