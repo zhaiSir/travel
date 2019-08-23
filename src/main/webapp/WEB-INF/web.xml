@@ -5,7 +5,15 @@
 
 
     <servlet>
-        <servlet-name>ActiveUserServlet</servlet-name>
+        <servlet-name>activeUserServlet</servlet-name>
         <servlet-class>cn.itcast.travel.web.servlet.ActiveUserServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loginServlet</servlet-name>
+        <servlet-class>cn.itcast.travel.web.servlet.LoginServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>checkCode</servlet-name>
+        <servlet-class>cn.itcast.travel.web.servlet.CheckCodeServlet</servlet-class>
     </servlet>
 </web-app>

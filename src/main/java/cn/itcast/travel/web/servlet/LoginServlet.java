@@ -17,16 +17,16 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
-
-@WebServlet("/registUserServlet")
-public class RegistUserServlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+@WebServlet("/loginServlet")
+public class LoginServlet extends HttpServlet {
+    public void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
+        response.setContentType("application/json;charset=utf-8");
         //验证码校验
         String check = request.getParameter("check");
         //从session中获取验证码
         HttpSession session = request.getSession();
         String checkcode_server = (String)session.getAttribute("CHECKCODE_SERVER");
-        //session.removeAttribute("CHECKCODE_SERVER");
+        /*session.removeAttribute("CHECKCODE_SERVER");*/
         if(checkcode_server == null || !checkcode_server.equals(check)){
             ResultInfo info = new ResultInfo();
             info.setFlag(false);
@@ -39,7 +39,6 @@ public class RegistUserServlet extends HttpServlet {
             return;
         }
 
-
         //1.获取数据
         Map<String, String[]> map = request.getParameterMap();
         //2.封装对象
@@ -51,19 +50,24 @@ public class RegistUserServlet extends HttpServlet {
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
-        //3.调用service完成注册
+        //3.调用service查询用户密码是否正确
         UserService service = new UserServiceImpl();
-        boolean flag = service.regist(user);
+        int flag = service.login(user);
         ResultInfo info = new ResultInfo();
-        //响应结果
-        if(flag){
-            //注册成功
-            info.setFlag(true);
-        }else{
-            //注册失败
-            info.setErrorMsg("注册失败!");
+        if(flag==-1){
             info.setFlag(false);
+            info.setErrorMsg("用户不存在！");
+        }else if(flag==-2){
+            info.setFlag(false);
+            info.setErrorMsg("用户名或密码错误！");
         }
+        else if(flag==0){
+            info.setFlag(false);
+            info.setErrorMsg("账户未激活！");
+        }else if(flag==1){
+            info.setFlag(true);
+        }
+
         //将info对象序列化为json
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(info);
@@ -73,7 +77,7 @@ public class RegistUserServlet extends HttpServlet {
         response.getWriter().write(json);
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        this.doPost(request,response);
     }
 }

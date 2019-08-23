@@ -42,11 +42,20 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void updateStatus(User user) {
-        
+        String sql = "update tab_user set status='Y' where code=?";
+        template.update(sql,user.getCode());
     }
 
     @Override
     public User findByCode(String code) {
-        return null;
+        User user = new User();
+        try{
+            //定义SQL语句
+            String sql = "select * from tab_user where  code = ? ";
+            user = template.queryForObject(sql,new BeanPropertyRowMapper<User>(User.class),code);
+        }catch(Exception e){
+
+        }
+        return user;
     }
 }

@@ -23,11 +23,31 @@ public class UserServiceImpl implements UserService {
             userDao.save(user);
 
             //激活邮件发送，邮件正文
-            String content = "<a href='http://localhost:/travel/activeUserServlet1?code="+user.getCode()+"'>点击激活【黑马旅游网】</a>";
-            MailUtils.sendMail(user.getEmail(),content,"激活邮件");
+            //String content = "<a href='http://localhost:/travel/activeUserServlet?code="+user.getCode()+"'>【激活黑馬教育網賬號】</a>";
+            //MailUtils.sendMail(user.getEmail(),"Sb。","激活邮件");
+            MailUtils.sendMail(user.getEmail(),  "<a href='http://192.168.30.1:8080/travel/activeUserServlet?code="+user.getCode()+"'>【点击激活黑马教育网账号】</a>", "激活邮件");
             return true;
         }
 
+    }
+
+    //用户登录
+    @Override
+    public int login(User user) {
+        User u = userDao.findByUserName(user.getUsername());
+        if (u == null) {
+            return -1;//用户不存在
+        } else {
+            if (!u.getStatus().equals("Y")) {
+                return 0;//账户未激活
+            } else {
+                if (user.getPassword().equals(u.getPassword())) {
+                    return 1;//登录成功
+                }else {
+                    return -2;//用户名或密码错误
+                }
+            }
+        }
     }
 
     //激活用户

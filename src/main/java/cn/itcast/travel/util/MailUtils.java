@@ -71,12 +71,13 @@ public final class MailUtils {
         return false;
     }
 
-    public static void main(String[] args) throws Exception { // 做测试用
-        /*for(int i=0;i<100;i++) {
+/*    public static void main(String[] args) throws Exception { // 做测试用
+        *//*for(int i=0;i<100;i++) {
             MailUtils.sendMail("1187996528@qq.com", "Sb。", "测试邮件");
-        }*/
+        }*//*
+        MailUtils.sendMail("1187996528@qq.com", "<a href='http://localhost:/travel/activeUserServlet?code=123'>click to active</a>", "激活邮件2");
         System.out.println("发送成功");
-    }
+    }*/
 
 
 
